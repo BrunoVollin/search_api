@@ -13,41 +13,41 @@ This project provides an API that allows users to submit questions about a docum
 
 1. **Clone the Repository:**
 
-    \```bash
+    ```bash
     git clone https://github.com/your_username/document_search_api.git
     cd document_search_api
-    \```
+    ```
 
     Replace `your_username` with your actual GitHub username and `document_search_api` with your repository name if different.
 
 2. **Set Up a Virtual Environment (Recommended):**
 
-    \```bash
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-    \```
+    ```
 
 3. **Install the Required Packages:**
 
-    \```bash
+    ```bash
     pip install fastapi[all] uvicorn spacy
-    \```
+    ```
 
 4. **Download the spaCy Language Model:**
 
     For Portuguese:
 
-    \```bash
+    ```bash
     python -m spacy download pt_core_news_lg
-    \```
+    ```
 
 ## Usage
 
 1. **Start the API Server:**
 
-    \```bash
+    ```bash
     python main.py
-    \```
+    ```
 
 2. **Access the API:**
 
@@ -55,9 +55,9 @@ This project provides an API that allows users to submit questions about a docum
 
     Example POST request to the `/search` endpoint with a question:
 
-    \```bash
+    ```bash
     curl -X POST "http://127.0.0.1:8000/search" -H "accept: application/json" -H "Content-Type: application/x-www-form-urlencoded" -d "question=Consequencia aquecimento global?"
-    \```
+    ```
 
 ## Contributing
 
