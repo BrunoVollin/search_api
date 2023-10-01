@@ -1,5 +1,5 @@
 import os
-
+from openai_gpt.gpt import Bot
 import uvicorn
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,6 +14,10 @@ from search.utils import clean_data
 pytesseract.pytesseract.tesseract_cmd = r'F:\T\tesseract.exe'
 
 app = FastAPI()
+
+API_KEY = os.environ.get("OPENAI_API_KEY")
+bot = Bot(API_KEY)
+
 
 origins = ["*"]
 
@@ -81,10 +85,13 @@ async def search_document(pdf_name: str, question: str):
         document = file.read()
     relevant_paragraphs = searcher.advanced_search(question, document)
     cleaned_paragraphs = clean_data(relevant_paragraphs)
+    print(cleaned_paragraphs)
+    ai_response = bot.generate(question, " ".join(cleaned_paragraphs))
+    print(ai_response)
+    return {"ai_response": ai_response}
 
 
 
-    return {"results": cleaned_paragraphs}
 
     ...
 
