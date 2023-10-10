@@ -1,4 +1,9 @@
 import openai
+import matplotlib.pyplot as plt
+import io
+import os
+import base64
+import json 
 
 class Bot:
     def __init__(self, api_key: str):
@@ -15,3 +20,28 @@ class Bot:
         )
         content = response['choices'][0]['message']['content']
         return content
+    
+    def generate_chart(self, question: str, document_data: str):
+        answer = self.generate(question, document_data)
+
+        x = [1, 2, 3, 4, 5]
+        y = [10, 20, 25, 30, 35]
+
+        plt.plot(x, y)
+        plt.xlabel('Eixo X')
+        plt.ylabel('Eixo Y')
+        plt.title('Exemplo de Gráfico')
+
+        buffer = io.BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+
+
+        chart_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+        
+        response = {
+            "answer" : answer,
+            "chart_base64": chart_base64
+        }
+
+        return response

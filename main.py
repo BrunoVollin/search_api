@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from PyPDF2 import PdfReader
+from fastapi.responses import FileResponse
 
 import pytesseract
 
@@ -68,7 +69,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         with open(txt_file_location, "w", encoding="utf-8") as txt_file:
             txt_file.write(text)
 
-    return {"filename": filename}
+    return {"filename": filename}   
 
 
 @app.post("/search")
@@ -90,8 +91,10 @@ async def search_document(pdf_name: str, question: str):
     print(ai_response)
     return {"ai_response": ai_response}
 
-
-
+@app.get("/send-image")
+async def send_image():
+    data = bot.generate_chart("123", "123")  
+    return  data
 
     ...
 
