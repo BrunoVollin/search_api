@@ -69,7 +69,11 @@ async def upload_pdf(file: UploadFile = File(...)):
         with open(txt_file_location, "w", encoding="utf-8") as txt_file:
             txt_file.write(text)
 
-    return {"filename": filename}   
+    return {"filename": filename}
+
+
+def isGraphicResponse(question: str):
+    return True
 
 
 @app.post("/search")
@@ -87,14 +91,12 @@ async def search_document(pdf_name: str, question: str):
     relevant_paragraphs = searcher.advanced_search(question, document)
     cleaned_paragraphs = clean_data(relevant_paragraphs)
     print(cleaned_paragraphs)
-    ai_response = bot.generate(question, " ".join(cleaned_paragraphs))
-    print(ai_response)
-    return {"ai_response": ai_response}
 
-@app.get("/send-image")
-async def send_image():
-    data = bot.generate_chart("123", "123")  
-    return  data
+    response = bot.generate_chart(question, " ".join(cleaned_paragraphs)) if isGraphicResponse(
+        question) else bot.generate(question, " ".join(cleaned_paragraphs))
+
+    return response
+
 
     ...
 

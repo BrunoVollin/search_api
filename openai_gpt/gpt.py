@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import io
 import os
 import base64
-import json 
+import json
+
 
 class Bot:
     def __init__(self, api_key: str):
@@ -18,9 +19,13 @@ class Bot:
                 {"role": "user", "content": prompt},
             ]
         )
-        content = response['choices'][0]['message']['content']
-        return content
-    
+        answer = response['choices'][0]['message']['content']
+
+        response = {
+            "ai_response": answer,
+        }
+        return response
+
     def generate_chart(self, question: str, document_data: str):
         answer = self.generate(question, document_data)
 
@@ -36,12 +41,11 @@ class Bot:
         plt.savefig(buffer, format='png')
         buffer.seek(0)
 
+        print(answer)
 
         chart_base64 = base64.b64encode(buffer.read()).decode('utf-8')
         
-        response = {
-            "answer" : answer,
-            "chart_base64": chart_base64
-        }
+        answer["chart_base64"] = chart_base64
 
-        return response
+
+        return answer
