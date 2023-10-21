@@ -4,7 +4,7 @@ class Searcher:
     def __init__(self, model_name="pt_core_news_lg"):
         self.nlp = spacy.load(model_name)
 
-    def advanced_search(self, query, document, max_paragraphs=20):
+    def advanced_search(self, query, document, max_paragraphs=50):
         doc = self.nlp(document)
         query_doc = self.nlp(query)
 
